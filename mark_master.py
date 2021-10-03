@@ -2,9 +2,9 @@
 from utils import *
 import discord
 from discord import ChannelType
-getSearch('music')
+from tokens import *
 
-luke_token = 'NzIyMjU5MDE0NTkwOTIyNzcy.XugeMw.VAzM8baYc-M4cKl0y85UB1Dzdps'
+getSearch('music')
 
 
 games = [
