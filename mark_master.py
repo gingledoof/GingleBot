@@ -104,7 +104,7 @@ class Mark:
 
                 if url == None:
                     channel = ctx.message.channel
-                    await channel.send('I am being fucking RAPED so I can\'t play fnaf right now')
+                    await channel.send('I am being fucking SEXED so I can\'t play fnaf right now')
                 else:
                     scr = discord.FFmpegPCMAudio(url)
                     print(scr)
@@ -212,7 +212,6 @@ class Mark:
 
 mark =[]
 
-#mark.append(Mark(luke_token, bind_channel=677367336755265581).client_start)
 #for token in TOKENS:
 #    mark.append(Mark(token).client_start)
 #mark.append(Mark(luke_token).client_start)
