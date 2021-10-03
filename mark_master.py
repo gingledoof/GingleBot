@@ -3,6 +3,7 @@ from utils import *
 import discord
 from discord import ChannelType
 from tokens import *
+import urllib.request
 
 games = [
     "Xonotic",
@@ -86,7 +87,7 @@ class Mark:
             client.bind_channel = ctx.message.author.voice
             print(f'Bound to: {client.bind_channel}')
 
-        async def play(scr, channel, ctx):
+        async def play(scr, channel, ctx, commands):
 
             if scr != None:
                 try:
@@ -98,7 +99,7 @@ class Mark:
                 url = await get_url(scr)
 
                 def repeat(scr):
-                    print('Replaing')
+                    print('Replaying')
                     #voice.play(scr, after=lambda e: repeat(scr))
                     #voice.is_playing()
 
@@ -106,7 +107,14 @@ class Mark:
                     channel = ctx.message.channel
                     await channel.send('I am being fucking SEXED so I can\'t play fnaf right now')
                 else:
-                    scr = discord.FFmpegPCMAudio(url)
+                    if commands != None:
+                        #options = '-filter:a "volume=5000, flanger=speed=5" -b:a 2000'
+                        scr = discord.FFmpegOpusAudio(url, options=commands)
+                    else:
+                        scr = discord.FFmpegOpusAudio(url)
+                    #urllib.request.urlretrieve(url, "song.mp3")
+
+
                     print(scr)
 
                     try:
@@ -124,7 +132,8 @@ class Mark:
             print('Looping')
             self.loop = not self.loop
 
-
+        #options separated by |
+        #Ex: .p url | volume=100 | er
         @client.command(pass_context=True)
         async def p(ctx, *, word):
             message = ctx.message
@@ -141,8 +150,23 @@ class Mark:
             if voice != None:
                 if channel != voice.channel:
                     await voice.disconnect()
-            link = getSearch(word)
-            await play(link, channel, ctx)
+            try:
+                search, commands = word.split('|')
+                search = search.strip()
+                commands = commands.strip()
+
+                #for i,command in enumerate(commands):
+                #    commands[i] = commands.strip()
+                #commands = ' '.join(commands)
+
+            except Exception as e:
+                print(e)
+                search = word
+                commands = None
+
+            link = getSearch(search)
+
+            await play(link, channel, ctx, commands)
 
         @client.command(pass_context=True)
         async def check_perm(ctx, guild_id: int):
@@ -216,7 +240,7 @@ mark =[]
 #    mark.append(Mark(token).client_start)
 #mark.append(Mark(luke_token).client_start)
 
-mark.append(Mark(TOKENS[4]).client_start)
+mark.append(Mark(TOKENS[5]).client_start)
 
 loop = asyncio.get_event_loop()
 
