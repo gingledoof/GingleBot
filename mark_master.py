@@ -4,9 +4,6 @@ import discord
 from discord import ChannelType
 from tokens import *
 
-getSearch('music')
-
-
 games = [
     "Xonotic",
     "Master Chief",
